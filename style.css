@@ -186,3 +186,21 @@ h3{
 .records i.delete:hover{
     color: #B42B51;
 }
+
+.hide {
+    display: none;
+}
+
+#error {
+    background-color: #f9afb8bb;
+    border-left: 10px solid #EB596E;
+    border-right: 10px solid #EB596E;;
+    text-align: center;
+    margin: auto;
+    width: 200px;
+    border-radius: 5px;
+}
+
+.error {
+    border: 2px solid red;
+}

@@ -1,7 +1,7 @@
 const form = document.querySelector(".add");
 const incomeList = document.querySelector("ul.income-list");
 const expenseList = document.querySelector("ul.expense-list");
-
+const error = document.getElementById("error");
 const balance = document.getElementById("balance");
 const income = document.getElementById("income");
 const expense = document.getElementById("expense");
@@ -64,12 +64,40 @@ function addTransaction(source, amount) {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
-  addTransaction(form.source.value, form.amount.value);
-  updateStatistics();
-  form.reset();
+
+  if (form.source.value.trim() === "") {
+    // return alert("Please enter a value")
+    error.classList.remove("hide");
+    form.source.classList.add("error");
+  }
+  if (form.amount.value.trim() === "") {
+    error.classList.remove("hide");
+    form.amount.classList.add("error");
+  }
+  if (form.source.value.trim() && form.amount.value) {
+      addTransaction(form.source.value.trim(), Number(form.amount.value));
+      document.querySelector(".transaction-history").classList.remove("hide");
+      updateStatistics();
+      form.reset();
+  }
+});
+
+form.addEventListener("keyup", (event) => {
+  if (form.source.value.trim()) {
+    form.source.classList.remove("error");
+  }
+  if (form.amount.value.trim()) {
+    form.amount.classList.remove("error");
+  }
+  if (form.source.value.trim() && form.amount.value.trim()) {
+    error.classList.add("hide");
+  }
 });
 
 function getTransactions() {
+  transactions.length === 0
+    ? document.querySelector(".transaction-history").classList.add("hide")
+    : document.querySelector(".transaction-history").classList.remove("hide");
   // display all transactions from local storage upon opening or refreshing the page
   transactions.forEach((transaction) => {
     addTransactionDOM(
@@ -87,6 +115,9 @@ function deleteTransaction(id) {
   });
 
   localStorage.setItem("transactions", JSON.stringify(transactions));
+  if (transactions.length === 0) {
+    document.querySelector(".transaction-history").classList.add("hide");
+  }
 }
 
 incomeList.addEventListener("click", (event) => {
