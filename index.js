@@ -23,7 +23,6 @@ function addTransactionDOM (id, source, amount, time) {
     }
 }
 
-
 function addTransaction(source, amount) {
     const time = new Date();
     const transaction = {
@@ -35,7 +34,7 @@ function addTransaction(source, amount) {
     transactions.push(transaction) //adding new transaction into transactions array
     localStorage.setItem("transactions", JSON.stringify(transactions)) 
     // storing transactions array under key transactions in local storage, each time information is overwritten
-    addTransactionDOM(transaction.id, source, amount, transaction.time)
+    addTransactionDOM(Number(transaction.id), source, amount, transaction.time)
 }
 
 form.addEventListener("submit", event => {
@@ -45,9 +44,32 @@ form.addEventListener("submit", event => {
 })
 
 function getTransactions() {
+    // display all transactions from local storage upon opening or refreshing the page
     transactions.forEach(transaction => {
         addTransactionDOM(transaction.id, transaction.source, transaction.amount, transaction.time)
     })
 }
 
 getTransactions();
+
+function  deleteTransaction(id) {
+    transactions = transactions.filter(transaction => {
+        return transaction.id !== id;
+    })
+
+    localStorage.setItem("transactions", JSON.stringify(transactions))
+};
+
+incomeList.addEventListener("click", event => {
+    if (event.target.classList.contains("delete")) {
+        event.target.parentElement.remove();
+        deleteTransaction(Number(event.target.parentElement.dataset.id)); //passing the id stored in li tag
+    }
+});
+
+expenseList.addEventListener("click", event => {
+    if (event.target.classList.contains("delete")) {
+        event.target.parentElement.remove();
+        deleteTransaction(Number(event.target.parentElement.dataset.id)); //passing the id stored in li tag
+    }
+})
