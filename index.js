@@ -43,3 +43,11 @@ form.addEventListener("submit", event => {
     addTransaction(form.source.value, form.amount.value);
     form.reset();    
 })
+
+function getTransactions() {
+    transactions.forEach(transaction => {
+        addTransactionDOM(transaction.id, transaction.source, transaction.amount, transaction.time)
+    })
+}
+
+getTransactions();
