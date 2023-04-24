@@ -16,7 +16,6 @@ function updateStatistics() {
     .filter((transaction) => transaction.amount > 0)
     .reduce((total, transaction) => (total += Number(transaction.amount)), 0);
 
-  console.log(typeof updatedIncome);
   const updatedExpense = transactions
     .filter((transaction) => transaction.amount < 0)
     .reduce(
@@ -95,6 +94,7 @@ form.addEventListener("keyup", (event) => {
 });
 
 function getTransactions() {
+    //hide transaction history if there are no transactions 
   transactions.length === 0
     ? document.querySelector(".transaction-history").classList.add("hide")
     : document.querySelector(".transaction-history").classList.remove("hide");
